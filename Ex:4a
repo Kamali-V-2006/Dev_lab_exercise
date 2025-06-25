@@ -1,0 +1,38 @@
+#Ex. No:4
+a) Given a dataset with weekly temperature records across cities:
+Group the data by city and compute the sum of temperatures for each month.
+Reshape the result using pivoting to get a month-wise summary table.
+Identify the city with the highest total temperature in summer months.
+import pandas as pd
+
+# Step 1: Sample temperature data
+data = {
+    'City': ['Chennai', 'Delhi', 'Chennai', 'Delhi', 'Mumbai', 'Mumbai', 'Delhi', 'Chennai', 'Mumbai'],
+    'Date': ['2023-06-07', '2023-06-14', '2023-07-05', '2023-07-12', '2023-08-01',
+             '2023-08-15', '2023-06-21', '2023-08-25', '2023-07-20'],
+    'Temperature': [38, 42, 37, 41, 34, 33, 40, 36, 35]
+}
+
+# Step 2: Create DataFrame
+df = pd.DataFrame(data)
+
+# Step 3: Convert 'Date' to datetime and extract 'Month'
+df['Date'] = pd.to_datetime(df['Date'])
+df['Month'] = df['Date'].dt.month_name()
+
+# Step 4: Group by City and Month to calculate total temperature
+grouped = df.groupby(['City', 'Month'])['Temperature'].sum().reset_index()
+
+# Step 5: Pivot the data
+pivot_table = grouped.pivot(index='City', columns='Month', values='Temperature').fillna(0)
+
+# Step 6: Calculate summer total (June, July, August)
+summer_months = ['June', 'July', 'August']
+pivot_table['Summer_Total'] = pivot_table[summer_months].sum(axis=1)
+
+# Step 7: Identify city with highest summer temperature total
+top_city = pivot_table['Summer_Total'].idxmax()
+
+# Output
+print("Monthly Temperature Summary:\n", pivot_table)
+print("\nCity with the highest total summer temperature:", top_city)
