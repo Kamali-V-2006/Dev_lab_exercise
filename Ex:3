@@ -1,0 +1,100 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# 1. Creating Different Arrays
+arr_1d = np.array([10, 20, 30, 40, 50])
+arr_2d = np.array([[1, 2, 3],
+                   [4, 5, 6],
+                   [7, 8, 9]])
+arr_3d = np.array([[[1, 2], [3, 4]],
+                   [[5, 6], [7, 8]]])
+
+# 2. Array Operations
+reshaped_arr = arr_1d.reshape(5, 1)
+sliced_arr = arr_2d[:, 1]  # Select second column
+sum_arr = np.sum(arr_1d)
+mean_arr = np.mean(arr_1d)
+max_arr = np.max(arr_1d)
+min_arr = np.min(arr_1d)
+broadcast_arr = arr_2d + 10  # Broadcasting
+
+# 3. Array Operation Output
+print(f"Original 1D Array: {arr_1d}")
+print(f"Reshaped Array:\n{reshaped_arr}")
+print(f"Sliced Array (2nd column of 2D): {sliced_arr}")
+print(f"Sum: {sum_arr}, Mean: {mean_arr}, Max: {max_arr}, Min: {min_arr}")
+print(f"Broadcasted Array:\n{broadcast_arr}")
+
+# 4. Creating Pandas DataFrames
+df1 = pd.DataFrame({'Index': np.arange(1, 6), 'Value': arr_1d})
+df2 = pd.DataFrame({'Index': np.arange(1, 6), 'Squared': arr_1d**2})
+
+# 5. Merging DataFrames (Inner Join)
+merged_df = pd.merge(df1, df2, on='Index')
+print("\nMerged DataFrame:\n", merged_df)
+
+# 6. Concatenating DataFrames
+concat_df = pd.concat([df1, df2], axis=0, ignore_index=True)
+print("\nConcatenated DataFrame:\n", concat_df)
+
+# 7. Product-Quantity Data
+products = ['Laptop', 'Phone', 'Tablet', 'Headphones', 'Smartwatch']
+quantities = np.array([50, 120, 80, 150, 60])
+prices = np.array([700, 500, 300, 200, 250])
+product_df = pd.DataFrame({
+    'Product': products,
+    'Quantity': quantities,
+    'Price': prices
+})
+print("\nProduct Data:\n", product_df)
+
+# 8. Total Value Calculation
+product_df['Total Value'] = product_df['Quantity'] * product_df['Price']
+
+# 9. Plotting
+plt.figure(figsize=(14, 10))
+
+# Histogram
+plt.subplot(2, 3, 1)
+plt.hist(product_df['Quantity'], bins=5, color='purple', alpha=0.7)
+plt.title("Histogram of Quantities")
+plt.xlabel("Quantity")
+plt.ylabel("Frequency")
+
+# Bar Chart
+plt.subplot(2, 3, 2)
+plt.bar(product_df['Product'], product_df['Quantity'], color='blue')
+plt.title("Bar Chart of Products")
+plt.xlabel("Product")
+plt.ylabel("Quantity")
+
+# Line Chart
+plt.subplot(2, 3, 3)
+plt.plot(product_df['Product'], product_df['Quantity'], marker='o', linestyle='-', color='green')
+plt.title("Line Chart of Quantities")
+plt.xlabel("Product")
+plt.ylabel("Quantity")
+
+# Pie Chart
+plt.subplot(2, 3, 4)
+plt.pie(product_df['Quantity'], labels=product_df['Product'], autopct='%1.1f%%',
+        colors=['red', 'blue', 'green', 'yellow', 'purple'])
+plt.title("Pie Chart of Product Distribution")
+
+# Scatter Plot
+plt.subplot(2, 3, 5)
+sns.scatterplot(x=product_df['Price'], y=product_df['Quantity'], hue=product_df['Product'], palette="deep")
+plt.title("Scatter Plot: Price vs Quantity")
+plt.xlabel("Price")
+plt.ylabel("Quantity")
+
+# Box Plot
+plt.subplot(2, 3, 6)
+sns.boxplot(x='Product', y='Quantity', data=product_df, palette="coolwarm")
+plt.title("Box Plot of Quantities")
+
+# Show all plots neatly
+plt.tight_layout()
+plt.show()
