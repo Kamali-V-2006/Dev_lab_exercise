@@ -1,0 +1,9 @@
+import matplotlib.pyplot as plt
+x=[1,2,3,4,5]
+y=[24,46,68,87,74]
+plt.plot(x,y)
+plt.xlabel("reg.no")
+plt.ylabel("marks")
+
+plt.title("hello college")
+plt.show()
