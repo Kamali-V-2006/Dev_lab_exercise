@@ -1,0 +1,60 @@
+df <- data.frame(
+  ID = 1:10,
+  Age = c(23, 18, 33, 22, 44, 29, 38, 42, 32, 45),
+  Income = c(63477, 89372, 67140, 80944, 33050, 76171, 52000, 62906, 30151, 39112),
+  Gender = c("Male", "Female", "Male", "Female", "Male", "Female", "Male", "Female", "Male", "Male"),
+  Education = c("High School", "Bachelor", "Master", "PhD", "Bachelor", "Master", "Bachelor", "PhD", "High School", "Master")
+)
+print("First Few Records:")
+print(head(df))
+
+print("Summary Statistics:")
+print(summary(df))
+
+print("Missing Values in Each Column:")
+print(colSums(is.na(df)))
+
+print("Unique Genders:")
+print(unique(df$Gender))
+
+print("Unique Education Levels:")
+print(unique(df$Education))
+
+selected_columns <- df[, c("Age", "Income")]
+print("Selected Columns (Age & Income):")
+print(head(selected_columns))
+
+filtered_data <- subset(df, Age > 30)
+print("Filtered Data (Age > 30):")
+print(filtered_data)
+
+filtered_rows <- subset(df, Gender == "Male" & Education == "Master")
+print("Filtered Rows (Male & Master Degree):")
+print(filtered_rows)
+
+# 1. Histogram - Age Distribution
+hist(df$Age, 
+     breaks = 5, 
+     col = "lightblue", 
+     main = "Age Distribution", 
+     xlab = "Age", 
+     ylab = "Frequency")
+
+# 2. Boxplot - Income Distribution
+boxplot(df$Income, 
+        main = "Income Distribution", 
+        ylab = "Income")
+
+# 3. Barplot - Gender Distribution
+gender_counts <- table(df$Gender)
+barplot(gender_counts, 
+        col = "skyblue", 
+        main = "Gender Distribution", 
+        xlab = "Gender", 
+        ylab = "Count")
+
+# 4. Pie Chart - Education Distribution
+education_counts <- table(df$Education)
+pie(education_counts, 
+    main = "Education Distribution", 
+    col = c("gold", "lightcoral", "lightgreen", "lightskyblue"))
